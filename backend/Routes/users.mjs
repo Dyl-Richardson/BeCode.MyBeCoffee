@@ -6,11 +6,10 @@ const router = express.Router()
 // Get
 
 // Post
-router.post("/create", createUser)
+router.get("/create", createUser)
 
 // Patch
 
 // Delete
 
 export default router
-

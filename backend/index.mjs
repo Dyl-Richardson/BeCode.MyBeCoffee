@@ -13,7 +13,12 @@ const port = process.env | 8080
 app.use(cors())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
-app.use((req) => console.log(req.url))
+app.use((req, res, next) => {
+    console.log(req.url)
+    next()
+})
+
+app.get("/", (req, res, next) => res.send({ info: "Welcome!" }));
 
 // Routes
 app.use("/api/users", users)
@@ -21,6 +26,6 @@ app.use("/api/recettes", recettes)
 app.use("/api/attendances", attendances)
 
 app.listen(port, () => {
-    console.log(`Connected on ${port}`)
+    console.log(`Connected on http://localhost:${port}/`)
 })
 
