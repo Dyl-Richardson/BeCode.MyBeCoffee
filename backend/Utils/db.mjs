@@ -1,6 +1,6 @@
-import pg from "pg"
+// import pg from "pg"
 
-const pgClient = pg.Client
+// const pgClient = pg.Client
 
 // const client = new pgClient({
 //     user: "postgres",
@@ -12,8 +12,19 @@ const pgClient = pg.Client
 
 // client.connect()
 
-const client = 8
+// export default client
 
-export default client
+// import SQLite from "sqlite-async";
 
+// async function test() {
+//     const db = await SQLite.open("database");
 
+//     const users = await db.all(
+//         "SELECT * FROM users"
+//     )
+//     console.log(users);
+//     db.close();
+//     return users;
+// }
+
+// test()
