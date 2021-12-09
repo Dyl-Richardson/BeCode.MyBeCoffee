@@ -28,4 +28,3 @@ CREATE TABLE "tokens"(
     "token" TEXT NOT NULL,
     "expiration" DATE NOT NULL
 );
-

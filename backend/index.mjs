@@ -28,4 +28,3 @@ app.use("/api/attendances", attendances)
 app.listen(port, () => {
     console.log(`Connected on http://localhost:${port}/`)
 })
-
