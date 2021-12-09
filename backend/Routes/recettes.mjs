@@ -4,9 +4,11 @@ import {  } from "../Controllers/attendances.mjs";
 const router = express.Router()
 
 // Get
-
+router.get()
 // Post
-// router.post("/path", attendances.name)
+router.post("/:idRecette", (req,res)=>{
+    
+})
 
 // Patch
 
