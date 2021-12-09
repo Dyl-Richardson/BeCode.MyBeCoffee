@@ -1,6 +1,6 @@
-import SQLite from "sqlite-async";
 import bcrypt from "bcrypt"
 import pool from "../Utils/db.mjs";
+import { v4 as uuid } from "uuid"
 
 // Register
 function validateEmail(email) 
@@ -19,7 +19,7 @@ export async function register(req, res) {
                 if (password.length >= 6) {
                     const hashedPassword = await bcrypt.hash(password, 10)
                     const users = await pool.query(
-                        "INSERT INTO users (lastname, firstname, email, password, accounttype) VALUES ($1, $2, $3, $4, 'false')", [lastName, firstName, email, hashedPassword]
+                        "INSERT INTO users (iduser, lastname, firstname, email, password, accounttype) VALUES ($1, $2, $3, $4, $5, 'false')", [uuid(), lastName, firstName, email, hashedPassword]
                     )
                     res.status(200).send(users);
                 }
@@ -42,21 +42,24 @@ export async function register(req, res) {
 // Login
 
 export async function login(req, res) {
-    const users = await pool.query(
-        "SELECT * FROM users"
-    )
-    const user = users.find(user => user.email === req.body.email)
-    if (user == null) {
-        return res.status(400).send({ error: "Incorret email/password!" })
-    }
-
     try {
-        if (await bcrypt.compare(req.body.password, user.password)) {
+        const users = await pool.query("SELECT * FROM users WHERE email = $1", [req.body.email])
+
+        if (users.rows.length === 0) {
+
+            return res.status(400).send({ error: "Incorret email/password!" })
+
+        } else {
+
+            if (await bcrypt.compare(req.body.password, users.rows[0].password)) {
+                res.send({userId: users.rows[0].iduser})
+            }
+            else {
+                res.status(400).send({ error: "Incorret email/password!" })
+            }
 
         }
-        else {
-            res.status(400).send({ error: "Incorret email/password!" })
-        }
+
     } catch {
         res.status(500).send({ error: "Internal Server Error" })
     }
@@ -64,10 +67,21 @@ export async function login(req, res) {
 
 // Patch
 
-export async function editUser() {
-    const idUser = req.body.idUser
-    const accountType = req.body.accountType
-    const users = await pool.query(
-        "UPDATE users SET accountType = ? WHERE idUser = ?", [accountType, idUser]
-    )
+export async function editUser(req, res) {
+    let type = ""
+    try {
+        const users = await pool.query("SELECT * FROM users WHERE iduser = $1", [req.body.iduser])
+        if (users.rows.length === 0) {
+            res.status(400).send({ error: "Incorret iduser!" })
+        }
+        else {
+            if (users.rows[0].accounttype === "false") type = "true"
+            else type = "false"
+
+            const patch = await pool.query("UPDATE users SET accounttype = $1 WHERE iduser = $2", [type, req.body.iduser])
+            res.send({accounttype: req.body.accounttype})
+        }
+    } catch (err){
+        res.status(500).send({ error: "Internal Server Error" })
+    }
 }

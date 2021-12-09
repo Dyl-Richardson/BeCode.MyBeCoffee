@@ -7,7 +7,7 @@ const router = express.Router()
 router.get("/login", login)
 
 // Post
-router.post("/create", register)
+router.post("/register", register)
 
 // Patch
 router.patch("/edit", editUser)
