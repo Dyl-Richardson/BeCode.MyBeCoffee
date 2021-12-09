@@ -7,7 +7,7 @@ import recettes from "./Routes/recettes.mjs"
 import attendances from "./Routes/attendances.mjs"
 
 const app = express()
-const port = process.env | 8080
+const port = process.env | 8081
 
 // Midlewares
 app.use(cors())

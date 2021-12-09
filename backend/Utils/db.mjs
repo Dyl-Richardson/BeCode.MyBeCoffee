@@ -1,13 +1,25 @@
 import pg from "pg"
+import dotenv from "dotenv"
+
+dotenv.config()
+
+pg.defaults.ssl = true
 
 const pgClient = pg.Client
 
 const client = new pgClient({
-    user: "postgres",
-    host: "172.17.0.2",
-    database: "becoffe",
-    password: "becoffe",
-    port: 5432
+    user: process.env.USER,
+    host: process.env.HOST,
+    database: process.env.DATABASE,
+    password: process.env.PASSWORD,
+    port: process.env.PORT,
+    dialect: "postgres",
+    dialectOptions: {
+      ssl: {
+        require: true, // This will help you. But you will see nwe error
+        rejectUnauthorized: false // This line will fix new error
+      }
+    },
 })
 
 export default client
