@@ -2,6 +2,7 @@ import SQLite from "sqlite-async";
 import bcrypt from "bcrypt"
 import pool from "../Utils/db.mjs";
 
+
 // Register
 function validateEmail(email) 
     {
