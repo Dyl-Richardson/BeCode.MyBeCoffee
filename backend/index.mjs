@@ -1,13 +1,15 @@
 import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
+import http from "http";
 
 import users from "./Routes/users.mjs"
 import recettes from "./Routes/recettes.mjs"
 import attendances from "./Routes/attendances.mjs"
 
 const app = express()
-const port = process.env | 8080
+const _http = http.Server(app)
+const port = process.env | 8081
 
 // Midlewares
 app.use(cors())
@@ -25,6 +27,6 @@ app.use("/api/users", users)
 app.use("/api/recettes", recettes)
 app.use("/api/attendances", attendances)
 
-app.listen(port, () => {
+_http.listen(port, () => {
     console.log(`Connected on http://localhost:${port}/`)
 })

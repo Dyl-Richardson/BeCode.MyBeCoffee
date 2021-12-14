@@ -1,18 +1,16 @@
 import express from "express";
-import {  } from "../Controllers/attendances.mjs";
+import { create, allByDate, modify, deleteRecette  } from "../Controllers/recettes.mjs";
 
 const router = express.Router()
 
 // Get
-router.get()
+router.get("/allByDate", allByDate)
 // Post
-router.post("/:idRecette", (req,res)=>{
-    
-})
+router.post("/create", create)
 
 // Patch
-
+router.patch("/modify", modify)
 // Delete
-
+router.delete("/deleteRecette", deleteRecette)
 export default router
 

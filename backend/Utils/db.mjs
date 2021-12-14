@@ -1,30 +1,20 @@
-// import pg from "pg"
+import pg from "pg"
+import dotenv from "dotenv"
 
-// const pgClient = pg.Client
+dotenv.config()
+
+const pgClient = pg.Pool
 
 const client = new pgClient({
-    user: "postgres",
-    host: "172.17.0.2",
-    database: "becoffe",
-    password: "secretpassword",
-    port: 5432 // /tcp
+    user: process.env.USER,
+    host: process.env.HOST,
+    database: process.env.DATABASE,
+    password: process.env.PASSWORD,
+    port: process.env.PORT,
+    dialect: "postgres",
+      ssl: {
+        rejectUnauthorized: false // This line will fix new error
+      }
 })
 
-// client.connect()
-
-// export default client
-
-// import SQLite from "sqlite-async";
-
-// async function test() {
-//     const db = await SQLite.open("database");
-
-//     const users = await db.all(
-//         "SELECT * FROM users"
-//     )
-//     console.log(users);
-//     db.close();
-//     return users;
-// }
-
-// test()
+export default client
